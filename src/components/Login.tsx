@@ -1,15 +1,18 @@
 import Header from "./Header.tsx";
 import { useRef, useState } from "react";
 import { checkValidData } from "../utils/validation.ts";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase.ts';
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice.ts";
 
 const Login = () => {
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [isSignInForm, setIsSignInForm] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const toggleSignInForm = () => {
         setIsSignInForm(!isSignInForm);
@@ -17,6 +20,7 @@ const Login = () => {
 
     const email = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
+    const name = useRef<HTMLInputElement>(null);
 
     const handleButtonClick = () => {
 
@@ -31,15 +35,22 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed up 
                     const user = userCredential.user;
-                    console.log(user);
-                    setSuccessMessage("User created successfully");
-                    setErrorMessage(null);
+                    updateProfile(user, {
+                        displayName: name.current?.value || '', photoURL: "https://avatars.githubusercontent.com/u/69638733?v=4"
+                    }).then(() => {
+                        const { uid, email, displayName, photoURL } = auth.currentUser!;
+                        dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL }))
+                        setErrorMessage(null);
+                        navigate("/browse");
+                    }).catch((error) => {
+                        setErrorMessage(error);
+                    });
+
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     setErrorMessage(errorCode + "-" + errorMessage);
-                    setSuccessMessage(null);
                 });
 
         } else {
@@ -49,18 +60,15 @@ const Login = () => {
                     // Signed up 
                     const user = userCredential.user;
                     console.log(user);
-                    setSuccessMessage("User signed in successfully");
                     setErrorMessage(null);
+                    navigate("/browse");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     setErrorMessage(errorCode + "-" + errorMessage);
-                    setSuccessMessage(null);
                 });
         }
-
-
     }
 
     const inputFieldStyle = "p-2 my-2 w-full border-1 border-gray-400 placeholder:text-gray-400 bg-gray-900 rounded-sm";
@@ -79,6 +87,7 @@ const Login = () => {
                     type="text"
                     placeholder="Full Name"
                     className={inputFieldStyle}
+                    ref={name}
                 />}
                 <input
                     ref={email}
@@ -93,7 +102,6 @@ const Login = () => {
                     className={inputFieldStyle}
                 />
                 <p className={'text-sm text-red-700'}>{errorMessage}</p>
-                <p className={'text-sm text-green-700'}>{successMessage}</p>
                 <button
                     className={'p-2 mt-4 bg-red-700 w-full rounded-sm cursor-pointer'}
                     onClick={handleButtonClick}
