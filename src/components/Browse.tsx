@@ -1,16 +1,17 @@
-import Header from "./Header"
+import Header from "./Header";
+import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
 
 const Browse = () => {
+
+    useNowPlayingMovies();
+
     return (
         <div>
             <Header />
-            <h1 className="text-black text-3xl font-bold m-0 pt-10">Browse</h1>
-            <div>
-                <h2 className="text-white text-2xl font-bold m-0 mb-6">Series</h2>
-                <div>
-
-                </div>
-            </div>
+            <MainContainer />
+            <SecondaryContainer />
         </div>
     )
 }

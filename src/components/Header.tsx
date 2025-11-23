@@ -32,7 +32,7 @@ const Header = () => {
     }, [])
 
     return (
-        <div className={'absolute px-8 py-2 bg-linear-to-b from-black  flex justify-between w-full'}>
+        <div className={'absolute px-8 py-2 bg-linear-to-b from-black  flex justify-between w-full z-50'}>
             <img
                 className={'w-44'}
                 src={LOGO}
