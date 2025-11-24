@@ -7,6 +7,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { USER_AVATAR, LOGO } from "../utils/constants";
+import { RiShutDownLine } from "react-icons/ri";
+import { IoSearchOutline } from "react-icons/io5";
+import { toggleGptSearch } from "../utils/gptSlice";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -31,6 +34,11 @@ const Header = () => {
         return () => unsubscribe();
     }, [])
 
+    const handleGptSearch = () => {
+        // navigate("/gpt");
+        dispatch(toggleGptSearch(true));
+    }
+
     return (
         <div className={'absolute px-8 py-2 bg-linear-to-b from-black  flex justify-between w-full z-50'}>
             <img
@@ -38,19 +46,23 @@ const Header = () => {
                 src={LOGO}
                 alt="logo"
             />
-            <div className="flex items-center gap-4">
+            {user && <div className="flex items-center gap-4">
+                <button
+                    onClick={handleGptSearch}
+                    className="p-2 bg-purple-700 rounded-sm cursor-pointer text-white inline-flex items-center gap-2">
+                    <IoSearchOutline />
+                    GPT Search
+                </button>
                 <img
-                    className="w-10 h-10 rounded-full"
+                    className="w-10 h-10"
                     src={user?.photoURL ? user.photoURL : USER_AVATAR}
                     alt="user icon"
                 />
-                {user && (
-                    <>
-                        {user.displayName && <span className="text-white">{user.displayName}</span>}
-                        <button className="p-2 bg-red-700 rounded-sm cursor-pointer text-white" onClick={handleSignOut}>Sign Out</button>
-                    </>
-                )}
-            </div>
+                {user.displayName && <span className="text-white">{user.displayName}</span>}
+                <button className="p-1 bg-red-700 rounded-full cursor-pointer text-white" onClick={handleSignOut}>
+                    <RiShutDownLine />
+                </button>
+            </div>}
         </div>
     )
 }
