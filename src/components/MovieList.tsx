@@ -22,7 +22,6 @@ interface Movie {
 
 const MovieList = ({ title, movies }: MovieListProps) => {
 
-    console.log(movies)
     return (
         <div className="px-6 pt-5">
             <h2 className="text-2xl font-bold m-0 mb-5 text-white">{title}</h2>

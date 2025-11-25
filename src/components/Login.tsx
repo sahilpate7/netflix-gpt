@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { auth } from '../utils/firebase.ts';
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice.ts";
-import { USER_AVATAR } from "../utils/constants.ts";
+import { BG_URL, USER_AVATAR } from "../utils/constants.ts";
 
 const Login = () => {
 
@@ -57,7 +57,7 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed up 
                     const user = userCredential.user;
-                    console.log(user);
+                    // console.log(user);
                     setErrorMessage(null);
                 })
                 .catch((error) => {
@@ -74,7 +74,7 @@ const Login = () => {
         <div className={'relative'}>
             <Header />
             <div>
-                <img src={'https://assets.nflxext.com/ffe/siteui/vlv3/58622d3e-49bc-482d-8b16-bddc4b672e8e/web/IN-en-20251110-TRIFECTA-perspective_281b0878-5972-49a4-9956-3f0cb5eb039b_small.jpg'} alt="netflix backgorund" />
+                <img src={BG_URL} alt="netflix backgorund" />
             </div>
             <form onSubmit={(e) => e.preventDefault()} className={'absolute p-12 top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/70 text-white max-w-3/12 rounded-lg'}>
                 <h1 className={'text-3xl font-bold m-0 mb-6'}>

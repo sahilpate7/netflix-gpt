@@ -2,12 +2,17 @@ export const LOGO = "https://help.nflxext.com/helpcenter/OneTrust/oneTrust_produ
 
 export const USER_AVATAR = "https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png";
 
+const IMDB_API_KEY = import.meta.env.VITE_IMDB_API_KEY;
 export const API_OPTIONS = {
     method: 'GET',
     headers: {
         accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MzI1MGUwYzFiODY1NDY0ZDczYTU3ZjIzMjJjOGMyMiIsIm5iZiI6MTc2MzgxNDUzNS44NzAwMDAxLCJzdWIiOiI2OTIxYWM4NzVkNDRjOGQ1YWEzMmExMjQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Hjc-ssWG4XXWHCwTTOPcH14f8vGJqM8mt-i1eqp2Xnc'
+        Authorization: `Bearer ${IMDB_API_KEY}`
     }
 };
 
 export const IMAGE_CDN_URL = "https://image.tmdb.org/t/p/w780/"
+
+export const BG_URL = "https://assets.nflxext.com/ffe/siteui/vlv3/58622d3e-49bc-482d-8b16-bddc4b672e8e/web/IN-en-20251110-TRIFECTA-perspective_281b0878-5972-49a4-9956-3f0cb5eb039b_small.jpg"
+
+export const SUPPORTED_LANGUAGES = [{ value: "english", flag: "🇺🇸", name: "English" }, { value: "hindi", flag: "🇮🇳", name: "Hindi" }, { value: "marathi", flag: "🇲र", name: "Marathi" }, { value: "spanish", flag: "🇪🇸", name: "Spanish" }]
